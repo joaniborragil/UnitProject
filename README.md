@@ -1,79 +1,103 @@
-# UnitProject
-Final Project: Three-Part Pendulum Simulation
-Description
-This project simulates a chaotic three-part pendulum system using object-oriented programming in p5.js. Each pendulum segment is connected to the next, demonstrating complex oscillatory motion.
+Project Description
+An interactive triple pendulum simulation demonstrating chaotic motion with draggable pendulum bobs and a dynamic trailing path visualizing its complex oscillations.
 
-Modeling Components
-PendulumSegment Class: Represents each segment of the pendulum. Each segment manages its angle, angular velocity, angular acceleration, length, and position.
+Things I am modeling:
+Three interconnected PendulumSegment objects forming a three-part pendulum system.
 
-ThreePartPendulum Class: Manages three interconnected PendulumSegment instances, calculating their interactions and rendering the complete pendulum system.
+Each segment has its own length, angle, angular velocity, and angular acceleration.
+
+The pendulum arms influence each other’s motion, approximating coupled physics.
+
+A trail of the last pendulum bob’s position to visualize chaotic patterns.
 
 Variables and Data Structures
-Gravity: A constant to simulate the gravitational force acting on each pendulum segment.
+Segments array: Stores the three PendulumSegment objects.
 
-Damping: A factor to simulate energy loss over time, preventing perpetual motion.
+Angles array: Current angles for each pendulum arm.
 
-Time Step: A fixed value to control the simulation's update rate.
+Angular velocities & accelerations arrays: Track motion dynamics.
 
-Array of PendulumSegment Instances: Stores the three segments for easy iteration and management.
+Trail array: Stores recent positions of the last bob for drawing its path.
 
-Setup Function
-Initialize the canvas size.
+Dragging state variables: To handle mouse interaction and allow dragging of any pendulum bob.
 
-Create instances of PendulumSegment with specified lengths and initial angles.
+Setup
+Create a canvas sized 800x600.
 
-Instantiate the ThreePartPendulum with the created segments.
+Initialize the ThreePartPendulum object with an origin point near the top-center.
 
-Draw Function Flow
-Clear the background to prepare for new frame rendering.
+Set initial angles to start the pendulum in motion.
 
-Update the physics of each pendulum segment:
+Prepare empty trail array for tracking bob’s path.
 
-Calculate angular acceleration based on gravity and the angles of connected segments.
+Draw Flow
+Clear the background every frame.
 
-Update angular velocity and angle.
+Update pendulum physics or update angles if dragging.
 
-Apply damping to simulate energy loss.
+Calculate new positions for each pendulum segment.
 
-Render each segment by drawing lines between their calculated positions.
-thecodingtrain.com
-+4
-natureofcode.com
-+4
-SoBrief
-+4
+Append last bob position to trail array and limit its length.
 
-Class Details
+Render trail with semi-transparent stroke.
+
+Render each pendulum arm with distinct color and thickness.
+
+Handle user mouse interaction to drag bobs and set initial angles.
+
+Classes and Their Responsibilities
 PendulumSegment
-Properties:
+Properties: origin (start point), length, angle, angular velocity, angular acceleration, position (end point), damping factor.
 
-length: Length of the pendulum segment.
+Actions:
 
-angle: Current angle from the vertical.
+Calculate new position based on current angle and length.
 
-angularVelocity: Rate of change of the angle.
+Update angle using velocity and acceleration with damping applied.
 
-angularAcceleration: Rate of change of the angular velocity.
-
-origin: The pivot point of the segment.
-
-position: The end point of the segment calculated from the origin and angle.
-
-Methods:
-
-update: Calculates the new angle based on physics.
-
-display(): Draws the segment on the canvas.
+Display the arm (line) and bob (circle) with a given color.
 
 ThreePartPendulum
 Properties:
 
-segments: An array containing the three PendulumSegment instances.
+origin (fixed anchor point).
 
-Methods:
+Arrays of lengths, angles, angular velocities, angular accelerations.
 
-update: Updates each segment's physics, considering the influence of connected segments.
+segments array of PendulumSegment instances.
 
-display: Calls the display() method of each segment to render the complete pendulum.
+trail array storing last bob’s positions.
 
-This structure provides a clear roadmap for implementing the three-part pendulum simulation. By focusing on object-oriented principles and the physics of oscillation, you can create a visually engaging and educational model of complex pendulum motion.
+draggingSegment index to track which bob is being dragged.
+
+Constants for gravity and damping.
+
+Actions:
+
+update():
+
+If dragging, update the angle of dragged segment based on mouse position.
+
+Else, compute new accelerations and velocities for realistic motion physics.
+
+Update segments’ positions accordingly.
+
+Update trail with the last bob’s position.
+
+display():
+
+Draw the trail and each pendulum segment with distinct colors and line weights.
+
+tryDrag(x, y): Detect if a bob is close enough to mouse for dragging.
+
+stopDrag(): Release the dragging state.
+
+Code Status
+Core physics and rendering implemented.
+
+Mouse interaction and dragging for setting initial conditions working.
+
+Visual trail showing chaotic motion implemented.
+
+Potential improvements: More precise triple pendulum physics, energy conservation checks, UI controls.
+
